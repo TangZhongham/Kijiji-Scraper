@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11A547AA29F0EA7C00931C9A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A547A929F0EA7C00931C9A /* main.swift */; };
+		11A547AA29F0EA7C00931C9A /* fuck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A547A929F0EA7C00931C9A /* fuck.swift */; };
+		11A547B329F0F33300931C9A /* CoreXLSX in Frameworks */ = {isa = PBXBuildFile; productRef = 11A547B229F0F33300931C9A /* CoreXLSX */; };
+		11A547B629F0F40E00931C9A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 11A547B529F0F40E00931C9A /* Alamofire */; };
+		11A547B929F0F4C400931C9A /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 11A547B829F0F4C400931C9A /* SwiftSoup */; };
+		11A547BC29F13B7400931C9A /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A547BB29F13B7400931C9A /* FileManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +28,10 @@
 
 /* Begin PBXFileReference section */
 		11A547A629F0EA7C00931C9A /* Kijiji-Scraper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Kijiji-Scraper"; sourceTree = BUILT_PRODUCTS_DIR; };
-		11A547A929F0EA7C00931C9A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		11A547A929F0EA7C00931C9A /* fuck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fuck.swift; sourceTree = "<group>"; };
+		11A547B029F0F09700931C9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		11A547BA29F128BC00931C9A /* test.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
+		11A547BB29F13B7400931C9A /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +39,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11A547B329F0F33300931C9A /* CoreXLSX in Frameworks */,
+				11A547B629F0F40E00931C9A /* Alamofire in Frameworks */,
+				11A547B929F0F4C400931C9A /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +51,7 @@
 		11A5479D29F0EA7C00931C9A = {
 			isa = PBXGroup;
 			children = (
+				11A547B029F0F09700931C9A /* README.md */,
 				11A547A829F0EA7C00931C9A /* Kijiji-Scraper */,
 				11A547A729F0EA7C00931C9A /* Products */,
 			);
@@ -57,7 +68,9 @@
 		11A547A829F0EA7C00931C9A /* Kijiji-Scraper */ = {
 			isa = PBXGroup;
 			children = (
-				11A547A929F0EA7C00931C9A /* main.swift */,
+				11A547A929F0EA7C00931C9A /* fuck.swift */,
+				11A547BB29F13B7400931C9A /* FileManager.swift */,
+				11A547BA29F128BC00931C9A /* test.txt */,
 			);
 			path = "Kijiji-Scraper";
 			sourceTree = "<group>";
@@ -78,6 +91,11 @@
 			dependencies = (
 			);
 			name = "Kijiji-Scraper";
+			packageProductDependencies = (
+				11A547B229F0F33300931C9A /* CoreXLSX */,
+				11A547B529F0F40E00931C9A /* Alamofire */,
+				11A547B829F0F4C400931C9A /* SwiftSoup */,
+			);
 			productName = "Kijiji-Scraper";
 			productReference = 11A547A629F0EA7C00931C9A /* Kijiji-Scraper */;
 			productType = "com.apple.product-type.tool";
@@ -106,6 +124,11 @@
 				Base,
 			);
 			mainGroup = 11A5479D29F0EA7C00931C9A;
+			packageReferences = (
+				11A547B129F0F33300931C9A /* XCRemoteSwiftPackageReference "CoreXLSX" */,
+				11A547B429F0F40E00931C9A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				11A547B729F0F4C400931C9A /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
 			productRefGroup = 11A547A729F0EA7C00931C9A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -120,7 +143,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11A547AA29F0EA7C00931C9A /* main.swift in Sources */,
+				11A547AA29F0EA7C00931C9A /* fuck.swift in Sources */,
+				11A547BC29F13B7400931C9A /* FileManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +304,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		11A547B129F0F33300931C9A /* XCRemoteSwiftPackageReference "CoreXLSX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CoreOffice/CoreXLSX";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.1;
+			};
+		};
+		11A547B429F0F40E00931C9A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		11A547B729F0F4C400931C9A /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		11A547B229F0F33300931C9A /* CoreXLSX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11A547B129F0F33300931C9A /* XCRemoteSwiftPackageReference "CoreXLSX" */;
+			productName = CoreXLSX;
+		};
+		11A547B529F0F40E00931C9A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11A547B429F0F40E00931C9A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		11A547B829F0F4C400931C9A /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11A547B729F0F4C400931C9A /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 11A5479E29F0EA7C00931C9A /* Project object */;
 }
