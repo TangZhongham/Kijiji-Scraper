@@ -137,11 +137,12 @@ enum Executable {
                 try urls.forEach({ link in
                     let href = try link.attr("href")
                     let text = try link.text()
-                    let url = URL(string:"kijiji.ca\(href)")!
+                    let url = URL(string:"https://www.kijiji.ca\(href)")!
                     print("Text = \(text) URL = kijiji.ca\(href)")
                     
 //                    let html = try String(contentsOf: url)
 //                    let doc = try SwiftSoup.parse(html)
+                    try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
                     
                     // paste 过来
                 })
@@ -168,11 +169,39 @@ func checkItem(items: [String.SubSequence], title: String) -> Bool {
     return false
 }
 
+func getHouses(previous_items: [String.SubSequence], url: URL, houses_file: URL, today: String) throws {
+    let html = try String(contentsOf: url)
+    let doc = try SwiftSoup.parse(html)
+                    
+    let items = try doc.getElementsByClass("search-item")
+    
+    try items.forEach({ item in
+        let info = try item.getElementsByClass("info").first()!
+        
+        let title = try info.getElementsByClass("title").first()!.text().replacingOccurrences(of: ",",with: ";")
+        
+        // 如果有之前的房源
+        if previous_items.count >= 1 {
+            if checkItem(items: previous_items, title: title) {
+                print("已存在")
+            } else {
+                try writeFile(info: info, houses_file: houses_file, today: today)
+            }
+            
+        } else if previous_items.count == 0 {
+            // 看来就是上面那个return 会无论如何执行到这里
+            try writeFile(info: info, houses_file: houses_file, today: today)
+
+        }
+    })
+    
+}
+
 func writeFile(info: Element, houses_file: URL, today: String) throws {
     
     let title = try info.getElementsByClass("title").first()!.text().replacingOccurrences(of: ",",with: ";")
     let _detailurl = try info.getElementsByTag("a").first()!.attr("href")
-    let detailurl = "kijiji.ca\(_detailurl)"
+    let detailurl = "https://www.kijiji.ca\(_detailurl)"
     let _price = try info.getElementsByClass("price").first()!.text()
     let price = "\"\(_price)\""
     let description = try info.getElementsByClass("description").first()!.text().replacingOccurrences(of: ",",with: ";")
@@ -182,14 +211,14 @@ func writeFile(info: Element, houses_file: URL, today: String) throws {
     
     // current date
     
-    print(title)
-    print(price)
-    print(detailurl)
-    print(description)
-    print(location)
-    print(dateposted)
-    print(distance)
-    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+//    print(title)
+//    print(price)
+//    print(detailurl)
+//    print(description)
+//    print(location)
+//    print(dateposted)
+//    print(distance)
+//    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
     // 与文件里的对比
     
     let combineStr = "\(title),\(price),\(description),\(location),\(dateposted),\(distance),\(today),\(detailurl)\n"
