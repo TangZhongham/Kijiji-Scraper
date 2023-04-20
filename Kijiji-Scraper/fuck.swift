@@ -78,18 +78,51 @@ enum Executable {
                     // 如果有之前的房源
                     // 这一段还是不对
                     if previous_items.count >= 1 {
-                        for p in previous_items {
-                            if p.contains(title) {
-                                print("已存在")
-                                break
-                            } else {
-                                try writeFile(info: info, houses_file: houses_file, today: today)
-                            }
+//                        for p in previous_items {
+//                            if p.contains(title) {
+//                                print("已存在")
+//                                // 这个地方应该要跳出循环了，但是break 没用。
+//                                // 好像是这里break 了还会执行下面的else
+//                                // 这里感觉无论是break 还是continue 都会执行else
+//                                continue
+//                            }
+//
+////                            else {
+////                                // 看起来就是这个地方会一直执行
+////                                // 自己逻辑有问题。等于只要
+////                                try writeFile(info: info, houses_file: houses_file, today: today)
+////                            }
+//
+////                            try writeFile(info: info, houses_file: houses_file, today: today)
+//                        }
+                        
+                        if checkItem(items: previous_items, title: title) {
+                            print("已存在")
+                        } else {
+                            try writeFile(info: info, houses_file: houses_file, today: today)
                         }
-                    } else {
+                        
+                    } else if previous_items.count == 0 {
+                        // 看来就是上面那个return 会无论如何执行到这里
                         try writeFile(info: info, houses_file: houses_file, today: today)
 
                     }
+                    
+//                    if previous_items.count >= 1 {
+//                        if previous_items.contains(title) {
+//
+//                        }
+//
+//                    }
+                    
+                    // 1， 有当前title。有当前 previous_items 。只要判断 title 不在 previous items 里面，就 write
+//                    if previous_items.enumerated().contains(title)
+                    
+//                    if checkItem(items: previous_items, title: title) {
+//                        print("已存在")
+//                    } else {
+//                        try writeFile(info: info, houses_file: houses_file, today: today)
+//                    }
                     
     
                 })
@@ -123,6 +156,16 @@ enum Executable {
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths[0]
+}
+
+// 看看title 是否存在于 之前的列表里
+func checkItem(items: [String.SubSequence], title: String) -> Bool {
+    for item in items {
+        if item.contains(title) {
+            return true
+        }
+    }
+    return false
 }
 
 func writeFile(info: Element, houses_file: URL, today: String) throws {
