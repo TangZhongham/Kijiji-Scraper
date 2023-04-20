@@ -27,3 +27,5 @@ https://github.com/Alamofire/Alamofire
 https://github.com/scinfu/SwiftSoup
 
 https://github.com/CoreOffice/CoreXLSX
+
+https://medium.com/@turgay2317/web-scraping-with-swiftsoup-3bbaf2089f0f?source=user_profile---------3----------------------------

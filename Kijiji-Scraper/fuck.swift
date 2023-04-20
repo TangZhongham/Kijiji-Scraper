@@ -38,6 +38,8 @@ enum Executable {
 //        let html = try String(contentsOf: url)
         
         let filename = getDocumentsDirectory().appendingPathComponent("test.txt")
+        
+        let houses_file = getDocumentsDirectory().appendingPathComponent("houses.csv")
 
 //        do {
 //            try html.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
@@ -60,31 +62,50 @@ enum Executable {
                 try items.forEach({ item in
                     let info = try item.getElementsByClass("info").first()!
                     
-                    let title = try info.getElementsByClass("title").first()!.text()
+                    let title = try info.getElementsByClass("title").first()!.text().replacingOccurrences(of: ",",with: ";")
                     let _detailurl = try info.getElementsByTag("a").first()!.attr("href")
                     let detailurl = "kijiji.ca\(_detailurl)"
-                    let price = try info.getElementsByClass("price").first()!
-                    let description = try info.getElementsByClass("description").first()!
-                    let location = try info.getElementsByClass("location").first()!
-                    let dateposted = try info.getElementsByClass("date-posted").first()!
-                    let distance = try info.getElementsByClass("distance").first()!
+                    let _price = try info.getElementsByClass("price").first()!.text()
+                    let price = "\"\(_price)\""
+                    let description = try info.getElementsByClass("description").first()!.text().replacingOccurrences(of: ",",with: ";")
+                    let location = try info.getElementsByClass("location").first()!.text().replacingOccurrences(of: ",",with: ";")
+                    let dateposted = try info.getElementsByClass("date-posted").first()!.text().replacingOccurrences(of: ",",with: ";")
+                    let distance = try info.getElementsByClass("distance").first()!.text().replacingOccurrences(of: ",",with: ";")
                     
+                    // current date
                     
                     print(title)
-                    print(try price.text())
+                    print(price)
                     print(detailurl)
-                    print(try description.text())
-                    print(try location.text())
-                    print(try dateposted.text())
-                    print(try distance.text())
+                    print(description)
+                    print(location)
+                    print(dateposted)
+                    print(distance)
                     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-                    
                     // 与文件里的对比
                     
+                    var combineStr = "\(title),\(price),\(description),\(location),\(dateposted),\(distance),\(detailurl)\n"
+                    
+                    do {
+//                        try combineStr.write(to: houses_file, atomically: true, encoding: String.Encoding.utf8)
+                        // 如果该房源在的话，break。不在的话且 价格便宜，发邮件
+                        
+                        if let handle = try? FileHandle(forWritingTo: houses_file) {
+                            handle.seekToEndOfFile() // moving pointer to the end
+                            handle.write(combineStr.data(using: .utf8)!) // adding content
+                            handle.closeFile() // closing the file
+                        }
+                    } catch {
+                        // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
+                    }
+                     
+                                        
                 })
                 
 //                Thread.sleep(forTimeInterval: 1)
 //                Task.sleep(nanoseconds: <#T##UInt64#>)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                }
                 
                 let urls = try doc.getElementsByClass("pagination").first()!.getElementsByTag("a")
                 
@@ -102,15 +123,17 @@ enum Executable {
                 
             }
             catch {/* error handling here */}
-        
-        
     }
+    
+    
 }
 
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths[0]
 }
+
+
 
 //DispatchQueue.main.async {
 //    <#code#>
