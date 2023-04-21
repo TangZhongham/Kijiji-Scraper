@@ -31,6 +31,26 @@ import SwiftSoup
 @main
 enum Executable {
     static func main() async throws {
+        let config = Config()
+        let hostname = config.hostname
+        let email = config.email
+        let password = config.password
+        let receiver = config.receiver
+
+        let subject = "每日提醒唐中华"
+        let text = "不知道行不行"
+        
+        let notifier = Notifier(hostname: hostname, email: email, password: password)
+        
+        print("发送中")
+        Task {
+            notifier.sendMail(receiverEmail: receiver, subject: subject, text: text)
+        }
+        print("发送完毕")
+        // 加上这里可以发送了, 然后显式的通过加flag 的去判断程序执行完毕，然后kill 掉。 https://stackoverflow.com/questions/31944011/how-to-prevent-a-command-line-tool-from-exiting-before-asynchronous-operation-co
+        dispatchMain()
+
+        
         let test = true
         
         let date = Date()
