@@ -46,91 +46,22 @@ enum Executable {
 //        let html = try String(contentsOf: url)
         
         let filename = getDocumentsDirectory().appendingPathComponent("test.txt")
-        
         let houses_file = getDocumentsDirectory().appendingPathComponent("houses.csv")
-        
         let previous_items = try String(contentsOf: houses_file, encoding: .utf8).split(separator:"\n")
-
-
-//        do {
-//            try html.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-//        } catch {
-//            // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
-//        }
-        // 
+        
+        try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
         
         //reading
             do {
-                let text2 = try String(contentsOf: filename, encoding: .utf8)
+                // test only
+//                let text2 = try String(contentsOf: filename, encoding: .utf8)
+                
+                let text2 = try String(contentsOf: url)
+                
                 let doc = try SwiftSoup.parse(text2)
                                 
-                let items = try doc.getElementsByClass("search-item")
-                
-//                print(items.first()!.description)
-//                let first = items.first()!
-//                let info = try first.getElementsByClass("info").first()!
-                
-                try items.forEach({ item in
-                    let info = try item.getElementsByClass("info").first()!
-                    
-                    let title = try info.getElementsByClass("title").first()!.text().replacingOccurrences(of: ",",with: ";")
-                    
-                    // 如果有之前的房源
-                    // 这一段还是不对
-                    if previous_items.count >= 1 {
-//                        for p in previous_items {
-//                            if p.contains(title) {
-//                                print("已存在")
-//                                // 这个地方应该要跳出循环了，但是break 没用。
-//                                // 好像是这里break 了还会执行下面的else
-//                                // 这里感觉无论是break 还是continue 都会执行else
-//                                continue
-//                            }
-//
-////                            else {
-////                                // 看起来就是这个地方会一直执行
-////                                // 自己逻辑有问题。等于只要
-////                                try writeFile(info: info, houses_file: houses_file, today: today)
-////                            }
-//
-////                            try writeFile(info: info, houses_file: houses_file, today: today)
-//                        }
-                        
-                        if checkItem(items: previous_items, title: title) {
-                            print("已存在")
-                        } else {
-                            try writeFile(info: info, houses_file: houses_file, today: today)
-                        }
-                        
-                    } else if previous_items.count == 0 {
-                        // 看来就是上面那个return 会无论如何执行到这里
-                        try writeFile(info: info, houses_file: houses_file, today: today)
-
-                    }
-                    
-//                    if previous_items.count >= 1 {
-//                        if previous_items.contains(title) {
-//
-//                        }
-//
-//                    }
-                    
-                    // 1， 有当前title。有当前 previous_items 。只要判断 title 不在 previous items 里面，就 write
-//                    if previous_items.enumerated().contains(title)
-                    
-//                    if checkItem(items: previous_items, title: title) {
-//                        print("已存在")
-//                    } else {
-//                        try writeFile(info: info, houses_file: houses_file, today: today)
-//                    }
-                    
-    
-                })
-                
 //                Thread.sleep(forTimeInterval: 1)
 //                Task.sleep(nanoseconds: <#T##UInt64#>)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                }
                 
                 let urls = try doc.getElementsByClass("pagination").first()!.getElementsByTag("a")
                 
@@ -139,12 +70,12 @@ enum Executable {
                     let text = try link.text()
                     let url = URL(string:"https://www.kijiji.ca\(href)")!
                     print("Text = \(text) URL = kijiji.ca\(href)")
-                    
 //                    let html = try String(contentsOf: url)
 //                    let doc = try SwiftSoup.parse(html)
                     try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
                     
-                    // paste 过来
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    }
                 })
                 
             }
@@ -180,17 +111,23 @@ func getHouses(previous_items: [String.SubSequence], url: URL, houses_file: URL,
         
         let title = try info.getElementsByClass("title").first()!.text().replacingOccurrences(of: ",",with: ";")
         
+        if title.contains("Room all inclusive") {
+            print("kk")
+        }
+        
         // 如果有之前的房源
         if previous_items.count >= 1 {
             if checkItem(items: previous_items, title: title) {
                 print("已存在")
             } else {
                 try writeFile(info: info, houses_file: houses_file, today: today)
+                print("添加新房源: \(title).")
             }
             
         } else if previous_items.count == 0 {
             // 看来就是上面那个return 会无论如何执行到这里
             try writeFile(info: info, houses_file: houses_file, today: today)
+            print("添加新房源: \(title).")
 
         }
     })

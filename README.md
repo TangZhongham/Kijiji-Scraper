@@ -7,7 +7,7 @@
 // https://www.kijiji.ca/b-room-rental-roommate/ottawa/c36l1700185?address=Algonquin College Ottawa Campus, Woodroffe Avenue, Nepean, ON&ll=45.349934,-75.754926&radius=3.0
 
 1. ✅ 爬取模块：爬取kijiji 上面房源，寻找合适的房源
-2. 存储模块：存到excel 里持久化
+2. ✅ 存储模块：存到excel 里持久化
 3. 定时邮件提醒：每天发一封邮件，好房推荐
 
 先把基础功能搞定，再慢慢加
