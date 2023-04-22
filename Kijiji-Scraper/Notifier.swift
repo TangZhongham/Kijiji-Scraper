@@ -45,9 +45,12 @@ class Notifier {
             client.send(mail) { (error) in
                 if let error = error {
                     print(error)
+                    // 不添加显式退出程序 dispatchMain() 会一直hang住。
+                    exit(EXIT_FAILURE)
                 } else {
                     // 没走到这里来，也没print error
                     print("Send email successful")
+                    exit(EXIT_SUCCESS)
                 }
             }
         

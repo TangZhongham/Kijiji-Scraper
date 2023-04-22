@@ -32,6 +32,7 @@ import SwiftSoup
 enum Executable {
     static func main() async throws {
         try Scraper().execute()
+        
     }
 }
 
