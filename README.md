@@ -14,7 +14,8 @@
 
 ✅ 先把基础功能搞定，再慢慢加。
 
-1. 哪些内容需要邮件？
+
+1. ✅ 0422-哪些内容需要邮件？
 
 邮件标题添加时间，新增n个房源，最低多少最高多少，如果有sep 9 等字眼可以预警。
 邮件内容渲染成html 格式方便查看
@@ -22,6 +23,8 @@
 2. 配套的 crontab 执行逻辑. 可以改成 一开电脑，过一个小时就check 一次，写一个seed 休眠。
 
 3. 代码 purify
+
+4. 添加async parser：https://antran.app/2022/swift_argument_parser_async/
 
 ## log
 
@@ -52,7 +55,10 @@ But in, say, a Mac command line tool, there is no automatic run loop. It runs it
 
         https://stackoverflow.com/questions/31944011/how-to-prevent-a-command-line-tool-from-exiting-before-asynchronous-operation-co
 
+https://stackoverflow.com/questions/31944011/how-to-prevent-a-command-line-tool-from-exiting-before-asynchronous-operation-co/50998018#50998018
 
 需要保存一些上下文特性，但又不需要用类的继承，可以用 struct.(但是如果要修改就不能用struct)
 
 比方说 csv 转 html 的table ，python 就随便转，swift 就没现成的库
+
+连打log都很复杂。。。没什么人用的感觉。但是这估计 iOS 也一样（iOS可以参考别人项目）？

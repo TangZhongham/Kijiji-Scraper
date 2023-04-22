@@ -60,24 +60,25 @@ class Scraper {
                 
                 let text2 = try String(contentsOf: url)
                 let doc = try SwiftSoup.parse(text2)
-                                
-//                Thread.sleep(forTimeInterval: 1)
-//                Task.sleep(nanoseconds: <#T##UInt64#>)
-                
                 let urls = try doc.getElementsByClass("pagination").first()!.getElementsByTag("a")
                 
                 try urls.forEach({ link in
                     let href = try link.attr("href")
                     let text = try link.text()
                     let url = URL(string:"https://www.kijiji.ca\(href)")!
-                    print("Text = \(text) URL = kijiji.ca\(href)")
-//                    let html = try String(contentsOf: url)
-//                    let doc = try SwiftSoup.parse(html)
+
                     try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
                     
-                    
                     // TODO 添加随机休眠
-                    
+//                    let randomInt = Int.random(in: 0..<6)
+                    let randomDouble = Double.random(in: 1...5)
+
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                        print("delay")
+//                    }
+//                    print("start")
+                    Thread.sleep(forTimeInterval: randomDouble)
+//                    print("end")
                     
                 })
                 
