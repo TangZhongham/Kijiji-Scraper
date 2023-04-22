@@ -8,6 +8,11 @@
 import Foundation
 import SwiftSoup
 
+func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
+}
+
 class Scraper {
     // mail config
     let config = Config()
@@ -87,9 +92,18 @@ class Scraper {
         Task {
             notifier.sendMail(receiverEmail: receiver, subject: subject, text: text)
         }
-        
         dispatchMain()
         
+    }
+    
+    // 看看title 是否存在于 之前的列表里
+    func checkItem(items: [String.SubSequence], title: String) -> Bool {
+        for item in items {
+            if item.contains(title) {
+                return true
+            }
+        }
+        return false
     }
     
     func getHouses(previous_items: [String.SubSequence], url: URL, houses_file: URL, today: String) throws {
