@@ -19,7 +19,7 @@
 邮件标题添加时间，新增n个房源，最低多少最高多少，如果有sep 9 等字眼可以预警。
 邮件内容渲染成html 格式方便查看
 
-2. 配套的 crontab 执行逻辑
+2. 配套的 crontab 执行逻辑. 可以改成 一开电脑，过一个小时就check 一次，写一个seed 休眠。
 
 3. 代码 purify
 
@@ -49,3 +49,10 @@ https://medium.com/@turgay2317/web-scraping-with-swiftsoup-3bbaf2089f0f?source=u
 In an application project, there is a main queue run loop already. For example, an iOS app project is actually nothing but one gigantic call to UIApplicationMain, which provides a run loop.
 That is how it is able to sit there waiting for the user to do something. The run loop is, uh, running. And looping.
 But in, say, a Mac command line tool, there is no automatic run loop. It runs its main function and exits immediately. If you needed it not to do that, you would supply a run loop.
+
+        https://stackoverflow.com/questions/31944011/how-to-prevent-a-command-line-tool-from-exiting-before-asynchronous-operation-co
+
+
+需要保存一些上下文特性，但又不需要用类的继承，可以用 struct.(但是如果要修改就不能用struct)
+
+比方说 csv 转 html 的table ，python 就随便转，swift 就没现成的库

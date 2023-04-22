@@ -31,75 +31,81 @@ import SwiftSoup
 @main
 enum Executable {
     static func main() async throws {
-        let config = Config()
-        let hostname = config.hostname
-        let email = config.email
-        let password = config.password
-        let receiver = config.receiver
+        let scraper = Scraper()
+        try scraper.execute()
+        
+//        // mail config
+//        let config = Config()
+//        let hostname = config.hostname
+//        let email = config.email
+//        let password = config.password
+//        let receiver = config.receiver
+//
+//        // mail content
+//        var subject = "找房小助手-"
+//        var text = ""
+//        var houseCount = ""
+//        var sep_houses = 0
+//
+//        let notifier = Notifier(hostname: hostname, email: email, password: password)
+//        let test = true
+//
+//        let date = Date()
+//        // Create Date Formatter
+//        let dateFormatter = DateFormatter()
+//        // Set Date Format
+//        dateFormatter.dateFormat = "YY/MM/dd"
+//        // Convert Date to String
+//        let today = dateFormatter.string(from: date)
+//
+//        let url = URL(string:"https://www.kijiji.ca/b-room-rental-roommate/ottawa/c36l1700185?address=Algonquin%20College%20Ottawa%20Campus,%20Woodroffe%20Avenue,%20Nepean,%20ON&ll=45.349934%2C-75.754926&radius=3.0")!
+//
+//        // test scraping
+//        let filename = getDocumentsDirectory().appendingPathComponent("test.txt")
+//
+//        let houses_file = getDocumentsDirectory().appendingPathComponent("houses.csv")
+//        let previous_items = try String(contentsOf: houses_file, encoding: .utf8).split(separator:"\n")
+//
+//        try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
+//
+//        //reading
+//            do {
+//                // test only
+////                let text2 = try String(contentsOf: filename, encoding: .utf8)
+//
+//                let text2 = try String(contentsOf: url)
+//                let doc = try SwiftSoup.parse(text2)
+//
+////                Thread.sleep(forTimeInterval: 1)
+////                Task.sleep(nanoseconds: <#T##UInt64#>)
+//
+//                let urls = try doc.getElementsByClass("pagination").first()!.getElementsByTag("a")
+//
+//                try urls.forEach({ link in
+//                    let href = try link.attr("href")
+//                    let text = try link.text()
+//                    let url = URL(string:"https://www.kijiji.ca\(href)")!
+//                    print("Text = \(text) URL = kijiji.ca\(href)")
+////                    let html = try String(contentsOf: url)
+////                    let doc = try SwiftSoup.parse(html)
+//                    try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
+//
+//
+//                    // TODO 添加随机休眠
+//
+//
+//                })
+//
+//            }
+//            catch {/* error handling here */}
+//
+//        print("发送中")
+//
+//        Task {
+//            notifier.sendMail(receiverEmail: receiver, subject: subject, text: text)
+//        }
+//        dispatchMain()
 
-        let subject = "每日提醒唐中华"
-        let text = "不知道行不行"
-        
-        let notifier = Notifier(hostname: hostname, email: email, password: password)
-        
-        print("发送中")
-        Task {
-            notifier.sendMail(receiverEmail: receiver, subject: subject, text: text)
-        }
-        print("发送完毕")
-        // 加上这里可以发送了, 然后显式的通过加flag 的去判断程序执行完毕，然后kill 掉。 https://stackoverflow.com/questions/31944011/how-to-prevent-a-command-line-tool-from-exiting-before-asynchronous-operation-co
-        dispatchMain()
-
-        
-        let test = true
-        
-        let date = Date()
-        // Create Date Formatter
-        let dateFormatter = DateFormatter()
-        // Set Date Format
-        dateFormatter.dateFormat = "YY/MM/dd"
-        // Convert Date to String
-        let today = dateFormatter.string(from: date)
-        
-        let url = URL(string:"https://www.kijiji.ca/b-room-rental-roommate/ottawa/c36l1700185?address=Algonquin%20College%20Ottawa%20Campus,%20Woodroffe%20Avenue,%20Nepean,%20ON&ll=45.349934%2C-75.754926&radius=3.0")!
-        
-//        let html = try String(contentsOf: url)
-        
-        let filename = getDocumentsDirectory().appendingPathComponent("test.txt")
-        let houses_file = getDocumentsDirectory().appendingPathComponent("houses.csv")
-        let previous_items = try String(contentsOf: houses_file, encoding: .utf8).split(separator:"\n")
-        
-        try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
-        
-        //reading
-            do {
-                // test only
-//                let text2 = try String(contentsOf: filename, encoding: .utf8)
-                
-                let text2 = try String(contentsOf: url)
-                
-                let doc = try SwiftSoup.parse(text2)
-                                
-//                Thread.sleep(forTimeInterval: 1)
-//                Task.sleep(nanoseconds: <#T##UInt64#>)
-                
-                let urls = try doc.getElementsByClass("pagination").first()!.getElementsByTag("a")
-                
-                try urls.forEach({ link in
-                    let href = try link.attr("href")
-                    let text = try link.text()
-                    let url = URL(string:"https://www.kijiji.ca\(href)")!
-                    print("Text = \(text) URL = kijiji.ca\(href)")
-//                    let html = try String(contentsOf: url)
-//                    let doc = try SwiftSoup.parse(html)
-                    try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    }
-                })
-                
-            }
-            catch {/* error handling here */}
     }
     
     
@@ -121,6 +127,7 @@ func checkItem(items: [String.SubSequence], title: String) -> Bool {
 }
 
 func getHouses(previous_items: [String.SubSequence], url: URL, houses_file: URL, today: String) throws {
+    
     let html = try String(contentsOf: url)
     let doc = try SwiftSoup.parse(html)
                     
@@ -128,17 +135,12 @@ func getHouses(previous_items: [String.SubSequence], url: URL, houses_file: URL,
     
     try items.forEach({ item in
         let info = try item.getElementsByClass("info").first()!
-        
         let title = try info.getElementsByClass("title").first()!.text().replacingOccurrences(of: ",",with: ";")
-        
-        if title.contains("Room all inclusive") {
-            print("kk")
-        }
         
         // 如果有之前的房源
         if previous_items.count >= 1 {
             if checkItem(items: previous_items, title: title) {
-                print("已存在")
+//                print("已存在")
             } else {
                 try writeFile(info: info, houses_file: houses_file, today: today)
                 print("添加新房源: \(title).")
