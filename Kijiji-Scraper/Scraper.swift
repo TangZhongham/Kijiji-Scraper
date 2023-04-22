@@ -32,6 +32,8 @@ class Scraper {
     let filename = getDocumentsDirectory().appendingPathComponent("test.txt")
     let houses_file = getDocumentsDirectory().appendingPathComponent("houses.csv")
     
+    var page_count = 0
+    
     func execute() throws {
         let hostname = config.hostname
         let email = config.email
@@ -71,14 +73,14 @@ class Scraper {
                     
                     // TODO 添加随机休眠
 //                    let randomInt = Int.random(in: 0..<6)
-                    let randomDouble = Double.random(in: 1...5)
+                    let randomDouble = Double.random(in: 1...10)
 
 //                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 //                        print("delay")
 //                    }
 //                    print("start")
                     Thread.sleep(forTimeInterval: randomDouble)
-//                    print("end")
+                    print("等待 \(randomDouble) 秒钟")
                     
                 })
                 
@@ -86,7 +88,9 @@ class Scraper {
             catch {/* error handling here */}
         
         subject.append("新增房源-\(houseCount)套-")
-        subject.append("可能新增89月房源-\(sep_houses)套")
+        subject.append("可能新增8、9月房源-\(sep_houses)套")
+        print("新增房源-\(houseCount)套")
+        print("可能新增8、9月房源-\(sep_houses)套")
         
         print("爬取完毕，发送中")
 
@@ -111,7 +115,9 @@ class Scraper {
         
         let html = try String(contentsOf: url)
         let doc = try SwiftSoup.parse(html)
-                        
+        
+        page_count += 1
+        print("爬取第 \(page_count) 页中～")
         let items = try doc.getElementsByClass("search-item")
         
         try items.forEach({ item in
@@ -125,14 +131,14 @@ class Scraper {
                 } else {
                     try writeFile(info: info, houses_file: houses_file, today: today)
                     houseCount += 1
-                    print("添加新房源: \(title).")
+                    print("找到并添加新房源: \(title).")
                 }
                 
             } else if previous_items.count == 0 {
                 // 看来就是上面那个return 会无论如何执行到这里
                 try writeFile(info: info, houses_file: houses_file, today: today)
                 houseCount += 1
-                print("添加新房源: \(title).")
+                print("找到并添加新房源: \(title).")
 
             }
         })
