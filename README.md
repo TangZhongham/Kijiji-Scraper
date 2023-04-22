@@ -32,6 +32,9 @@
 
 最大的问题就是 repl 不好用，导致只能一步步debug，浪费时间。然后playground 用起来也有一定学习成本（据说是更好的repl，但是刚启动后没能装上包就放弃了）。
 
+0422 基本功能已经实现了，主要弄2，3，4。有空弄弄文档 + 把配置参数化
+
+添加自动操作机器人：https://www.jianshu.com/p/d306f1b703c2 https://support.apple.com/zh-cn/guide/automator/aut7cac58839/mac
 
 
 ## 包
