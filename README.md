@@ -20,7 +20,7 @@
 邮件标题添加时间，新增n个房源，最低多少最高多少，如果有sep 9 等字眼可以预警。
 邮件内容渲染成html 格式方便查看
 
-2. 配套的 crontab 执行逻辑. 可以改成 一开电脑，过一个小时就check 一次，写一个seed 休眠。
+2. ✅ 配套的 crontab 执行逻辑. 可以改成 一开电脑，过一个小时就check 一次，写一个seed 休眠。
 
 3. 代码 purify
 
@@ -36,6 +36,9 @@
 
 添加自动操作机器人：https://www.jianshu.com/p/d306f1b703c2 https://support.apple.com/zh-cn/guide/automator/aut7cac58839/mac
 
+0423 0424
+
+通过 mac 自带的自动化实现每天调度。
 
 ## 包
 
