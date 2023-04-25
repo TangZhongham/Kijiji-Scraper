@@ -42,7 +42,7 @@
 
 0425
 
-✅ 完成邮件内容从pure text 改成 html，顺眼多了。
+✅ 完成邮件内容从pure text 改成 html，顺眼多了。table格式改为：https://codepen.io/labnol/pen/poyPejO?editors=1000
 
 ## 包
 
