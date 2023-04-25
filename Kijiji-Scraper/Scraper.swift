@@ -19,6 +19,51 @@ class Scraper {
     
     // mail content
     var subject = "找房小助手-"
+    var text_start = """
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <h1>Swift 找房小助手启动！🏄🏄🏄</h1>
+
+    <style>
+      .gmail-table {
+        border: solid 2px #DDEEEE;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font: normal 14px Roboto, sans-serif;
+      }
+
+      .gmail-table thead th {
+        background-color: #DDEFEF;
+        border: solid 1px #DDEEEE;
+        color: #336B6B;
+        padding: 10px;
+        text-align: left;
+        text-shadow: 1px 1px 1px #fff;
+      }
+
+      .gmail-table tbody td {
+        border: solid 1px #DDEEEE;
+        color: #333;
+        padding: 10px;
+        text-shadow: 1px 1px 1px #fff;
+      }
+    </style>
+  </head>
+<body>
+<table id="tfhover" class="gmail-table" border="1">
+<thead>
+<tr><th>Name</th><th>Price</th><th>Description</th><th>Location</th><th>Posted Date</th><th>Distance</th><th>Search Date</th><th>URL</th></tr></thead>
+ <tbody>
+
+"""
+    var text_end = """
+</tbody>
+  </table>
+    </body>
+  </html>
+"""
     var text = ""
     var houseCount = 0
     var sep_houses = 0
@@ -95,7 +140,10 @@ class Scraper {
         print("爬取完毕，发送中")
 
         Task {
-            notifier.sendMail(receiverEmail: receiver, subject: subject, text: text)
+            text = text_start + text_end
+//            notifier.sendMail(receiverEmail: receiver, subject: subject, text: text)
+            
+            notifier.sendHTMLMail(receiverEmail: receiver, subject: subject, text: text)
         }
         dispatchMain()
         
@@ -169,16 +217,18 @@ class Scraper {
     //    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         // 与文件里的对比
         
-        let combineStr = "\(title),\(price),\(description),\(location),\(dateposted),\(distance),\(today),\(detailurl)\n"
+        let fileStr = "\(title),\(price),\(description),\(location),\(dateposted),\(distance),\(today),\(detailurl)\n"
+        
+        let htmlStr = "<tr><td>\(title)</td><td>\(price)</td><td>\(description)</td><td>\(location)</td><td>\(dateposted)</td><td>\(distance)</td><td>\(today)</td><td>\(detailurl)</td></tr>\n"
         
         for each in sep_key_words {
-            if combineStr.contains(each) {
+            if fileStr.contains(each) {
                 sep_houses += 1
                 print("可能找到一个八月九月房源～")
             }
         }
         
-        text.append(combineStr)
+        text_start.append(htmlStr)
         
         do {
     //                        try combineStr.write(to: houses_file, atomically: true, encoding: String.Encoding.utf8)
@@ -186,7 +236,7 @@ class Scraper {
             
             if let handle = try? FileHandle(forWritingTo: houses_file) {
                 handle.seekToEndOfFile() // moving pointer to the end
-                handle.write(combineStr.data(using: .utf8)!) // adding content
+                handle.write(fileStr.data(using: .utf8)!) // adding content
                 handle.closeFile() // closing the file
             }
         } catch {

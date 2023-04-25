@@ -40,6 +40,10 @@
 
 通过 mac 自带的自动化实现每天调度。
 
+0425
+
+✅ 完成邮件内容从pure text 改成 html，顺眼多了。
+
 ## 包
 
 https://github.com/Alamofire/Alamofire
