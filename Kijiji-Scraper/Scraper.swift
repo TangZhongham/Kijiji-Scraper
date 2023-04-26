@@ -71,13 +71,18 @@ class Scraper {
         
     let date = Date()
     
-    let url = URL(string:"https://www.kijiji.ca/b-room-rental-roommate/ottawa/c36l1700185?address=Algonquin%20College%20Ottawa%20Campus,%20Woodroffe%20Avenue,%20Nepean,%20ON&ll=45.349934%2C-75.754926&radius=3.0")!
+//    let url = URL(string:"https://www.kijiji.ca/b-room-rental-roommate/ottawa/c36l1700185?address=Algonquin%20College%20Ottawa%20Campus,%20Woodroffe%20Avenue,%20Nepean,%20ON&ll=45.349934%2C-75.754926&radius=3.0")!
+    var url: URL
     
     // test scraping
     let filename = getDocumentsDirectory().appendingPathComponent("test.txt")
     let houses_file = getDocumentsDirectory().appendingPathComponent("houses.csv")
     
     var page_count = 0
+    
+    init(url: URL) {
+        self.url = url
+    }
     
     func execute() throws {
         let hostname = config.hostname

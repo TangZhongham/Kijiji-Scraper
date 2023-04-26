@@ -16,6 +16,7 @@
 		11B75DC129F25640009EFABC /* SwiftSMTP in Frameworks */ = {isa = PBXBuildFile; productRef = 11B75DC029F25640009EFABC /* SwiftSMTP */; };
 		11B75DC329F28BCE009EFABC /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B75DC229F28BCE009EFABC /* Config.swift */; };
 		11B75DC529F3903B009EFABC /* Scraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B75DC429F3903B009EFABC /* Scraper.swift */; };
+		11B75DC829F95FB2009EFABC /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 11B75DC729F95FB2009EFABC /* ArgumentParser */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +50,7 @@
 				11A547B329F0F33300931C9A /* CoreXLSX in Frameworks */,
 				11A547B629F0F40E00931C9A /* Alamofire in Frameworks */,
 				11B75DC129F25640009EFABC /* SwiftSMTP in Frameworks */,
+				11B75DC829F95FB2009EFABC /* ArgumentParser in Frameworks */,
 				11A547B929F0F4C400931C9A /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +117,7 @@
 				11A547B529F0F40E00931C9A /* Alamofire */,
 				11A547B829F0F4C400931C9A /* SwiftSoup */,
 				11B75DC029F25640009EFABC /* SwiftSMTP */,
+				11B75DC729F95FB2009EFABC /* ArgumentParser */,
 			);
 			productName = "Kijiji-Scraper";
 			productReference = 11A547A629F0EA7C00931C9A /* Kijiji-Scraper */;
@@ -149,6 +152,7 @@
 				11A547B429F0F40E00931C9A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				11A547B729F0F4C400931C9A /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				11B75DBC29F24E6E009EFABC /* XCRemoteSwiftPackageReference "Swift-SMTP" */,
+				11B75DC629F95FB2009EFABC /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 			);
 			productRefGroup = 11A547A729F0EA7C00931C9A /* Products */;
 			projectDirPath = "";
@@ -362,6 +366,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		11B75DC629F95FB2009EFABC /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -384,6 +396,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 11B75DBC29F24E6E009EFABC /* XCRemoteSwiftPackageReference "Swift-SMTP" */;
 			productName = SwiftSMTP;
+		};
+		11B75DC729F95FB2009EFABC /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11B75DC629F95FB2009EFABC /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

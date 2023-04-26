@@ -2,6 +2,19 @@
 
 > 本意拿爬取kijiji房源练手swift，但是不要用swift 写cmd tool，会变得不幸。
 
+## 项目使用方式
+
+```shell
+./Kijiji-Scraper [你选择租房条件后的URL]
+```
+
+可以结合 mac 的 【自动操作】实现每天定时监控并发送邮件，方便在加拿大的Kijiji找房，由于还在国内所以暂时只有Kijiji 的监控。
+
+✅ Kijiji 租房数量爬取
+✅ 邮件发送，HTML table 格式
+✅ CSV 格式存储
+✅ 理论上可以监控所有Kijiji 的项目，只需要替换URL即可（但是tag部分可能不一样？没测过）
+
 ## 开发设计
 
 目的：
@@ -22,9 +35,9 @@
 
 2. ✅ 配套的 crontab 执行逻辑. 可以改成 一开电脑，过一个小时就check 一次，写一个seed 休眠。
 
-3. 代码 purify
+3. ✅ 代码 purify
 
-4. 添加async parser：https://antran.app/2022/swift_argument_parser_async/
+4. ✅ 添加async parser：https://antran.app/2022/swift_argument_parser_async/
 
 ## log
 
