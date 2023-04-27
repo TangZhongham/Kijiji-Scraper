@@ -11,7 +11,6 @@
 		11A547B329F0F33300931C9A /* CoreXLSX in Frameworks */ = {isa = PBXBuildFile; productRef = 11A547B229F0F33300931C9A /* CoreXLSX */; };
 		11A547B629F0F40E00931C9A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 11A547B529F0F40E00931C9A /* Alamofire */; };
 		11A547B929F0F4C400931C9A /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 11A547B829F0F4C400931C9A /* SwiftSoup */; };
-		11A547BC29F13B7400931C9A /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A547BB29F13B7400931C9A /* FileManager.swift */; };
 		11B75DBE29F24E8C009EFABC /* Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B75DBD29F24E8C009EFABC /* Notifier.swift */; };
 		11B75DC129F25640009EFABC /* SwiftSMTP in Frameworks */ = {isa = PBXBuildFile; productRef = 11B75DC029F25640009EFABC /* SwiftSMTP */; };
 		11B75DC329F28BCE009EFABC /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B75DC229F28BCE009EFABC /* Config.swift */; };
@@ -36,7 +35,6 @@
 		11A547A929F0EA7C00931C9A /* fuck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fuck.swift; sourceTree = "<group>"; };
 		11A547B029F0F09700931C9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		11A547BA29F128BC00931C9A /* test.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
-		11A547BB29F13B7400931C9A /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		11B75DBD29F24E8C009EFABC /* Notifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifier.swift; sourceTree = "<group>"; };
 		11B75DC229F28BCE009EFABC /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		11B75DC429F3903B009EFABC /* Scraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scraper.swift; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 			children = (
 				11A547A929F0EA7C00931C9A /* fuck.swift */,
 				11B75DC229F28BCE009EFABC /* Config.swift */,
-				11A547BB29F13B7400931C9A /* FileManager.swift */,
 				11B75DC429F3903B009EFABC /* Scraper.swift */,
 				11B75DBD29F24E8C009EFABC /* Notifier.swift */,
 				11A547BA29F128BC00931C9A /* test.txt */,
@@ -172,7 +169,6 @@
 				11B75DC329F28BCE009EFABC /* Config.swift in Sources */,
 				11B75DBE29F24E8C009EFABC /* Notifier.swift in Sources */,
 				11B75DC529F3903B009EFABC /* Scraper.swift in Sources */,
-				11A547BC29F13B7400931C9A /* FileManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

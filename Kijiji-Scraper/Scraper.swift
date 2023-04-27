@@ -68,10 +68,10 @@ class Scraper {
     var houseCount = 0
     var sep_houses = 0
     let sep_key_words = ["Sep", "sep", "Aug", "aug"]
-        
+    
     let date = Date()
     
-//    let url = URL(string:"https://www.kijiji.ca/b-room-rental-roommate/ottawa/c36l1700185?address=Algonquin%20College%20Ottawa%20Campus,%20Woodroffe%20Avenue,%20Nepean,%20ON&ll=45.349934%2C-75.754926&radius=3.0")!
+    //    let url = URL(string:"https://www.kijiji.ca/b-room-rental-roommate/ottawa/c36l1700185?address=Algonquin%20College%20Ottawa%20Campus,%20Woodroffe%20Avenue,%20Nepean,%20ON&ll=45.349934%2C-75.754926&radius=3.0")!
     var url: URL
     
     // test scraping
@@ -100,42 +100,33 @@ class Scraper {
         let today = dateFormatter.string(from: date)
         subject.append("\(today)-")
         
+        // 读取先前房源，爬取目标页
         let previous_items = try String(contentsOf: houses_file, encoding: .utf8).split(separator:"\n")
-        
         // 获取首页房源
         try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
         
         // 获取其他页房源
-            do {
-                // test only
-//                let text2 = try String(contentsOf: filename, encoding: .utf8)
+        do {
+            // test only
+            //                let text2 = try String(contentsOf: filename, encoding: .utf8)
+            
+            let text2 = try String(contentsOf: url)
+            let doc = try SwiftSoup.parse(text2)
+            let urls = try doc.getElementsByClass("pagination").first()!.getElementsByTag("a")
+            
+            try urls.forEach({ link in
+                let href = try link.attr("href")
+                let url = URL(string:"https://www.kijiji.ca\(href)")!
                 
-                let text2 = try String(contentsOf: url)
-                let doc = try SwiftSoup.parse(text2)
-                let urls = try doc.getElementsByClass("pagination").first()!.getElementsByTag("a")
+                try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
                 
-                try urls.forEach({ link in
-                    let href = try link.attr("href")
-                    let text = try link.text()
-                    let url = URL(string:"https://www.kijiji.ca\(href)")!
-
-                    try getHouses(previous_items: previous_items, url: url, houses_file: houses_file, today: today)
-                    
-                    // TODO 添加随机休眠
-//                    let randomInt = Int.random(in: 0..<6)
-                    let randomDouble = Double.random(in: 1...10)
-
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                        print("delay")
-//                    }
-//                    print("start")
-                    Thread.sleep(forTimeInterval: randomDouble)
-                    print("等待 \(randomDouble) 秒钟")
-                    
-                })
-                
-            }
-            catch {/* error handling here */}
+                // TODO 添加随机休眠
+                let randomDouble = Double.random(in: 1...10)
+                Thread.sleep(forTimeInterval: randomDouble)
+                print("等待 \(randomDouble) 秒钟")
+            })
+        }
+        catch {/* error handling here */}
         
         subject.append("新增房源-\(houseCount)套-")
         subject.append("可能新增8、9月房源-\(sep_houses)套")
@@ -143,15 +134,14 @@ class Scraper {
         print("可能新增8、9月房源-\(sep_houses)套")
         
         print("爬取完毕，发送中")
-
+        
+        // 爬取完毕发送邮件
         Task {
             text = text_start + text_end
-//            notifier.sendMail(receiverEmail: receiver, subject: subject, text: text)
-            
             notifier.sendHTMLMail(receiverEmail: receiver, subject: subject, text: text)
+            //            notifier.sendMail(receiverEmail: receiver, subject: subject, text: text)
         }
         dispatchMain()
-        
     }
     
     // 看看title 是否存在于 之前的列表里
@@ -177,25 +167,21 @@ class Scraper {
             let info = try item.getElementsByClass("info").first()!
             let title = try info.getElementsByClass("title").first()!.text().replacingOccurrences(of: ",",with: ";")
             
-            // 如果有之前的房源
+            // 如果文件里含之前的房源，需对比房源是否重复
             if previous_items.count >= 1 {
                 if checkItem(items: previous_items, title: title) {
-    //                print("已存在")
                 } else {
                     try writeFile(info: info, houses_file: houses_file, today: today)
                     houseCount += 1
-                    print("找到并添加新房源: \(title).")
+                    print("添加新房源: \(title).")
                 }
                 
             } else if previous_items.count == 0 {
-                // 看来就是上面那个return 会无论如何执行到这里
                 try writeFile(info: info, houses_file: houses_file, today: today)
                 houseCount += 1
-                print("找到并添加新房源: \(title).")
-
+                print("添加新房源: \(title).")
             }
         })
-        
     }
     
     func writeFile(info: Element, houses_file: URL, today: String) throws {
@@ -210,22 +196,13 @@ class Scraper {
         let dateposted = try info.getElementsByClass("date-posted").first()!.text().replacingOccurrences(of: ",",with: ";")
         let distance = try info.getElementsByClass("distance").first()!.text().replacingOccurrences(of: ",",with: ";")
         
-        // current date
-        
-    //    print(title)
-    //    print(price)
-    //    print(detailurl)
-    //    print(description)
-    //    print(location)
-    //    print(dateposted)
-    //    print(distance)
-    //    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-        // 与文件里的对比
-        
+        // 写csv
         let fileStr = "\(title),\(price),\(description),\(location),\(dateposted),\(distance),\(today),\(detailurl)\n"
         
+        // 写邮件html
         let htmlStr = "<tr><td>\(title)</td><td>\(price)</td><td>\(description)</td><td>\(location)</td><td>\(dateposted)</td><td>\(distance)</td><td>\(today)</td><td>\(detailurl)</td></tr>\n"
         
+        // 判断是否是8、9月的房源
         for each in sep_key_words {
             if fileStr.contains(each) {
                 sep_houses += 1
@@ -236,9 +213,6 @@ class Scraper {
         text_start.append(htmlStr)
         
         do {
-    //                        try combineStr.write(to: houses_file, atomically: true, encoding: String.Encoding.utf8)
-            // 如果该房源在的话，break。不在的话且 价格便宜，发邮件
-            
             if let handle = try? FileHandle(forWritingTo: houses_file) {
                 handle.seekToEndOfFile() // moving pointer to the end
                 handle.write(fileStr.data(using: .utf8)!) // adding content

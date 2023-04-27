@@ -14,8 +14,7 @@ class Notifier {
     var password: String
     var client: SMTP
     var me: Mail.User
-//    var receiver: Mail.User
-        
+    
     init(hostname: String, email: String, password: String) {
         self.hostname = hostname
         self.email = email
@@ -23,9 +22,9 @@ class Notifier {
         self.client = SMTP(hostname: hostname, email: email, password: password, port: 25, tlsMode: .ignoreTLS)
         
         self.me = Mail.User(
-                name: "house buddy",
-                email: self.email
-            )
+            name: "house buddy",
+            email: self.email
+        )
     }
     
     
@@ -37,22 +36,22 @@ class Notifier {
         
         let mail = Mail(
             from: me,
-                to: [receiver],
-                subject: subject,
-                text: text
-            )
-            
-            client.send(mail) { (error) in
-                if let error = error {
-                    print(error)
-                    // 不添加显式退出程序 dispatchMain() 会一直hang住。
-                    exit(EXIT_FAILURE)
-                } else {
-                    // 没走到这里来，也没print error
-                    print("Send email successful")
-                    exit(EXIT_SUCCESS)
-                }
+            to: [receiver],
+            subject: subject,
+            text: text
+        )
+        
+        client.send(mail) { (error) in
+            if let error = error {
+                print(error)
+                // 不添加显式退出程序 dispatchMain() 会一直hang住。
+                exit(EXIT_FAILURE)
+            } else {
+                // 没走到这里来，也没print error
+                print("Send email successful")
+                exit(EXIT_SUCCESS)
             }
+        }
         
     }
     
@@ -66,28 +65,21 @@ class Notifier {
         
         let mail = Mail(
             from: me,
-                to: [receiver],
-                subject: subject,
-                attachments: [htmlContent]
-            )
-            
-            client.send(mail) { (error) in
-                if let error = error {
-                    print(error)
-                    // 不添加显式退出程序 dispatchMain() 会一直hang住。
-                    exit(EXIT_FAILURE)
-                } else {
-                    // 没走到这里来，也没print error
-                    print("Send email successful")
-                    exit(EXIT_SUCCESS)
-                }
-            }
+            to: [receiver],
+            subject: subject,
+            attachments: [htmlContent]
+        )
         
+        client.send(mail) { (error) in
+            if let error = error {
+                print(error)
+                // 不添加显式退出程序 dispatchMain() 会一直hang住。
+                exit(EXIT_FAILURE)
+            } else {
+                // 没走到这里来，也没print error
+                print("Send email successful")
+                exit(EXIT_SUCCESS)
+            }
+        }
     }
-    
-    func dailyNotifier(words: String) -> String {
-        return ""
-    }
-    
-    
 }
